@@ -1,0 +1,59 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python src/data_prep.py --input data/raw/telco_churn.csv --output 
+      data/processed --params params.yaml
+    deps:
+    - path: data/raw/telco_churn.csv
+      hash: md5
+      md5: 006527876bfe18c977d74eb4bc59443f
+      size: 873370
+    - path: params.yaml
+      hash: md5
+      md5: e5a7b4c098f282dbe273a8d1f532932a
+      size: 804
+    - path: src/data_prep.py
+      hash: md5
+      md5: 9cf2f61a941d8a4a171f393146826b42
+      size: 7117
+    params:
+      params.yaml:
+        data_prep:
+          test_size: 0.2
+          random_state: 42
+          target_column: churn
+          id_column: customer_id
+          numeric_features:
+          - age
+          - tenure_months
+          - monthly_charges
+          - total_charges
+          categorical_features:
+          - gender
+          - region
+          - contract_type
+          - internet_service
+          - phone_service
+          - multiple_lines
+          - payment_method
+    outs:
+    - path: data/processed/X_test.csv
+      hash: md5
+      md5: 391398ed758f52c93c59b6f941d457d5
+      size: 186616
+    - path: data/processed/X_train.csv
+      hash: md5
+      md5: b23ff27a0bbe120f836ace10915f7ef2
+      size: 745946
+    - path: data/processed/metadata.json
+      hash: md5
+      md5: 605a6bebb34ff5bb6a8155e766dc5a9e
+      size: 1287
+    - path: data/processed/y_test.csv
+      hash: md5
+      md5: 553985da1a7dc3823c3bdf133d691800
+      size: 6007
+    - path: data/processed/y_train.csv
+      hash: md5
+      md5: 7f7cc74bb166c9c11a612e41ba908be6
+      size: 24007

@@ -1,0 +1,17 @@
+# dvc.yaml - Pipeline reproducible TelcoVision
+
+stages:
+  prepare:
+    cmd: python src/data_prep.py --input data/raw/telco_churn.csv --output data/processed --params params.yaml
+    deps:
+      - src/data_prep.py
+      - data/raw/telco_churn.csv
+      - params.yaml
+    params:
+      - data_prep
+    outs:
+      - data/processed/X_train.csv
+      - data/processed/X_test.csv
+      - data/processed/y_train.csv
+      - data/processed/y_test.csv
+      - data/processed/metadata.json
