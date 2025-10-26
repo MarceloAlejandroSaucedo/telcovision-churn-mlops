@@ -15,3 +15,18 @@ stages:
       - data/processed/y_train.csv
       - data/processed/y_test.csv
       - data/processed/metadata.json
+
+  train:
+    cmd: python src/train.py --data data/processed --model models/model.joblib --metrics metrics.json --params params.yaml
+    deps:
+      - src/train.py
+      - data/processed/X_train.csv
+      - data/processed/X_test.csv
+      - data/processed/y_train.csv
+      - data/processed/y_test.csv
+      - params.yaml
+    params:
+      - train
+    outs:
+      - models/model.joblib
+      - metrics.json

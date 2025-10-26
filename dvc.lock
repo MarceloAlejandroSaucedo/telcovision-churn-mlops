@@ -57,3 +57,56 @@ stages:
       hash: md5
       md5: 7f7cc74bb166c9c11a612e41ba908be6
       size: 24007
+  train:
+    cmd: python src/train.py --data data/processed --model models/model.joblib 
+      --metrics metrics.json --params params.yaml
+    deps:
+    - path: data/processed/X_test.csv
+      hash: md5
+      md5: 391398ed758f52c93c59b6f941d457d5
+      size: 186616
+    - path: data/processed/X_train.csv
+      hash: md5
+      md5: b23ff27a0bbe120f836ace10915f7ef2
+      size: 745946
+    - path: data/processed/y_test.csv
+      hash: md5
+      md5: 553985da1a7dc3823c3bdf133d691800
+      size: 6007
+    - path: data/processed/y_train.csv
+      hash: md5
+      md5: 7f7cc74bb166c9c11a612e41ba908be6
+      size: 24007
+    - path: params.yaml
+      hash: md5
+      md5: e5a7b4c098f282dbe273a8d1f532932a
+      size: 804
+    - path: src/train.py
+      hash: md5
+      md5: 19cdcdd015170523263190a62fb18a86
+      size: 8071
+    params:
+      params.yaml:
+        train:
+          model_type: random_forest
+          random_forest:
+            n_estimators: 100
+            max_depth: 10
+            min_samples_split: 5
+            min_samples_leaf: 2
+            random_state: 42
+          metrics:
+          - accuracy
+          - precision
+          - recall
+          - f1_score
+          - roc_auc
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: 3bc9c7afdfa0f10bc4b71e411d071ea9
+      size: 491
+    - path: models/model.joblib
+      hash: md5
+      md5: 1ca595c03ff1beb3477b788b59812487
+      size: 6211321
