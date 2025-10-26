@@ -209,3 +209,4 @@ __marimo__/
 # DVC tracking
 /data/processed/*.csv
 /data/processed/*.json
+/metrics.json
