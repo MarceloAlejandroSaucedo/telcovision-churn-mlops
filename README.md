@@ -116,10 +116,6 @@ cd telcovision-churn-mlops
 
 
 
-text
-
-
-
 \### 2. Crear entorno virtual con Conda
 
 
@@ -136,9 +132,6 @@ conda activate telcovision-mlops
 
 
 
-text
-
-
 
 \### 3. Instalar dependencias
 
@@ -146,9 +139,6 @@ text
 
 pip install -r requirements.txt
 
-
-
-text
 
 
 
@@ -176,7 +166,6 @@ dvc remote modify origin --local password TU\_TOKEN\_DAGSHUB
 
 
 
-text
 
 
 
@@ -188,7 +177,6 @@ dvc pull
 
 
 
-text
 
 
 
@@ -200,7 +188,6 @@ dvc repro
 
 
 
-text
 
 
 
@@ -260,7 +247,6 @@ telcovision-churn-mlops/
 
 
 
-text
 
 
 
@@ -394,7 +380,6 @@ dvc params diff
 
 
 
-text
 
 
 
@@ -434,7 +419,6 @@ random\_state: 42
 
 
 
-text
 
 
 
@@ -446,7 +430,6 @@ dvc repro
 
 
 
-text
 
 
 
@@ -454,49 +437,37 @@ DVC detectará automáticamente los cambios y solo re-ejecutará las etapas nece
 
 
 
-\## 📊 Métricas del Modelo
+### Experimentos Realizados
 
+Se ejecutaron 3 experimentos variando hiperparámetros del RandomForestClassifier:
 
+| Experimento | n_estimators | max_depth | min_samples_split | Test Accuracy | Test Recall | Test ROC-AUC |
+|-------------|--------------|-----------|-------------------|---------------|-------------|--------------|
+| **aided-spit (Baseline)** | 100 | 10 | 5 | 66.65% | 35.90% | 71.21% |
+| **raked-skis (Alta potencia)** | 200 | 20 | 2 | 66.80% | **41.40%** | 70.64% |
+| **milky-dops (Balanceado) ** | 150 | 15 | 10 | **67.20%** | 40.17% | 70.94% |
 
-Las métricas se guardan en `models/metrics.json` y son trackeadas por DVC:
+### Modelo Seleccionado
 
+**Experimento: milky-dops (Balanceado)**
 
+**Justificación:**
+- Mejor accuracy general (67.20%)
+- Recall competitivo (40.17%), solo 1.2 puntos menos que el mejor
+- Mejor precision (56.92%) reduciendo falsas alarmas
+- Balance óptimo entre todas las métricas para uso en producción
 
-{
+**Métricas detalladas del mejor modelo:**
+- Test Accuracy: 0.6720
+- Test Precision: 0.5692
+- Test Recall: 0.4017
+- Test F1-Score: 0.4710
+- Test ROC-AUC: 0.7094
 
-"train": {
+**Comparación completa:** Ver archivo `experimentos_comparacion.txt` o ejecutar `dvc exp show` para detalles completos.
 
-"accuracy": 0.8524,
+**Reproducción de experimentos:**
 
-"precision": 0.8234,
-
-"recall": 0.7012,
-
-"f1\_score": 0.7573,
-
-"roc\_auc": 0.9145
-
-},
-
-"test": {
-
-"accuracy": 0.6665,
-
-"precision": 0.5649,
-
-"recall": 0.3590,
-
-"f1\_score": 0.4390,
-
-"roc\_auc": 0.7121
-
-}
-
-}
-
-
-
-text
 
 
 
@@ -527,10 +498,17 @@ git commit -m "exp: test n\_estimators=200"
 git push
 
 
+Ver todos los experimentos
+dvc exp show
 
-text
+Aplicar un experimento específico
+dvc exp apply milky-dops
+
+Ver métricas
+dvc metrics show
 
 
+Los experimentos y artefactos están versionados con DVC y disponibles en DagsHub.
 
 \## 🔗 Enlaces del Proyecto
 
@@ -584,7 +562,6 @@ dvc remote modify origin --local password TU\_TOKEN
 
 
 
-text
 
 
 
@@ -604,7 +581,6 @@ dvc repro -f
 
 
 
-text
 
 
 
@@ -624,7 +600,6 @@ dvc status
 
 
 
-text
 
 
 
