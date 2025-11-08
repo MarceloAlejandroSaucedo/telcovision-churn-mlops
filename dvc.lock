@@ -10,8 +10,8 @@ stages:
       size: 873370
     - path: params.yaml
       hash: md5
-      md5: e5a7b4c098f282dbe273a8d1f532932a
-      size: 804
+      md5: 8f99b13c06cd2cf8a94517d5e701a548
+      size: 698
     - path: src/data_prep.py
       hash: md5
       md5: 9cf2f61a941d8a4a171f393146826b42
@@ -79,8 +79,8 @@ stages:
       size: 24007
     - path: params.yaml
       hash: md5
-      md5: e5a7b4c098f282dbe273a8d1f532932a
-      size: 804
+      md5: 8f99b13c06cd2cf8a94517d5e701a548
+      size: 698
     - path: src/train.py
       hash: md5
       md5: 19cdcdd015170523263190a62fb18a86
@@ -90,9 +90,9 @@ stages:
         train:
           model_type: random_forest
           random_forest:
-            n_estimators: 100
-            max_depth: 10
-            min_samples_split: 5
+            n_estimators: 150
+            max_depth: 15
+            min_samples_split: 10
             min_samples_leaf: 2
             random_state: 42
           metrics:
@@ -104,9 +104,9 @@ stages:
     outs:
     - path: metrics.json
       hash: md5
-      md5: 3bc9c7afdfa0f10bc4b71e411d071ea9
-      size: 491
+      md5: fa080b59de9d30eaf88adf6982176fc0
+      size: 489
     - path: models/model.joblib
       hash: md5
-      md5: 1ca595c03ff1beb3477b788b59812487
-      size: 6211321
+      md5: 73bf7551b33710d10baed44facbb7a2a
+      size: 16765241

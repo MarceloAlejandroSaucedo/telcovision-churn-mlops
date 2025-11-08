@@ -4,40 +4,35 @@
 data_prep:
   test_size: 0.2
   random_state: 42
-  target_column: 'churn'
-  id_column: 'customer_id'
-  
+  target_column: churn
+  id_column: customer_id
+
   # Columnas numéricas
   numeric_features:
-    - age
-    - tenure_months
-    - monthly_charges
-    - total_charges
-  
-  # Columnas categóricas
+  - age
+  - tenure_months
+  - monthly_charges
+  - total_charges
   categorical_features:
-    - gender
-    - region
-    - contract_type
-    - internet_service
-    - phone_service
-    - multiple_lines
-    - payment_method
-
-# Entrenamiento del modelo
+  - gender
+  - region
+  - contract_type
+  - internet_service
+  - phone_service
+  - multiple_lines
+  - payment_method
 train:
-  model_type: 'random_forest'
-  
+  model_type: random_forest
   random_forest:
-    n_estimators: 100
-    max_depth: 10
-    min_samples_split: 5
+    n_estimators: 150
+    max_depth: 15
+    min_samples_split: 10
     min_samples_leaf: 2
     random_state: 42
-    
+
   metrics:
-    - accuracy
-    - precision
-    - recall
-    - f1_score
-    - roc_auc
+  - accuracy
+  - precision
+  - recall
+  - f1_score
+  - roc_auc
