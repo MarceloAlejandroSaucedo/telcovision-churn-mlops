@@ -1,0 +1,47 @@
+name: CI Pipeline - TelcoVision Churn
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  reproducibility-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Configure DVC remote
+        env:
+          DAGSHUB_USER: ${{ secrets.DAGSHUB_USER }}
+          DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
+        run: |
+          dvc remote modify origin --local auth basic
+          dvc remote modify origin --local user $DAGSHUB_USER
+          dvc remote modify origin --local password $DAGSHUB_TOKEN
+      
+      - name: Pull data and models
+        run: dvc pull
+      
+      - name: Reproduce pipeline
+        run: dvc repro
+      
+      - name: Show metrics
+        run: |
+          echo "Pipeline metrics:"
+          cat models/metrics.json
