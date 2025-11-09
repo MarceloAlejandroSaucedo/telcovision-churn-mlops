@@ -44,4 +44,4 @@ jobs:
       - name: Show metrics
         run: |
           echo "Pipeline metrics:"
-          cat models/metrics.json
+          cat metrics.json
