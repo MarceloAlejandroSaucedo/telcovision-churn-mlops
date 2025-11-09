@@ -1,6 +1,10 @@
 \# TelcoVision - Proyecto MLOps de Predicción de Churn
 
 
+![CI Pipeline](https://github.com/MarceloAlejandroSaucedo/telcovision-churn-mlops/workflows/CI%20Pipeline%20-%20TelcoVision%20Churn/badge.svg)
+
+## Proyecto ISTEA | Materia: Minería de datos II
+
 
 \## 📋 Descripción del Proyecto
 
