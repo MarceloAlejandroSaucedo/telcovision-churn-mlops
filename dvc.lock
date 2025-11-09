@@ -5,16 +5,13 @@ stages:
       data/processed --params params.yaml
     deps:
     - path: data/raw/telco_churn.csv
-      hash: md5
       md5: 006527876bfe18c977d74eb4bc59443f
       size: 873370
     - path: params.yaml
-      hash: md5
-      md5: 8f99b13c06cd2cf8a94517d5e701a548
+      md5: 3ecd8da4846ddfe063b0cdbfacfa3be2
       size: 698
     - path: src/data_prep.py
-      hash: md5
-      md5: 9cf2f61a941d8a4a171f393146826b42
+      md5: 79c06827aa55a4c833c535635b9a1abf
       size: 7117
     params:
       params.yaml:
@@ -38,52 +35,41 @@ stages:
           - payment_method
     outs:
     - path: data/processed/X_test.csv
-      hash: md5
-      md5: 391398ed758f52c93c59b6f941d457d5
+      md5: 71bcfda447a5023ff614cffae8f3558b
       size: 186616
     - path: data/processed/X_train.csv
-      hash: md5
-      md5: b23ff27a0bbe120f836ace10915f7ef2
+      md5: fcfcaaf8a5acbf8fe85dce0d21265bfc
       size: 745946
     - path: data/processed/metadata.json
-      hash: md5
-      md5: 605a6bebb34ff5bb6a8155e766dc5a9e
+      md5: 9c8cebd5c790a0e6725cb63026f5b19e
       size: 1287
     - path: data/processed/y_test.csv
-      hash: md5
-      md5: 553985da1a7dc3823c3bdf133d691800
+      md5: 73edd42799a08b81b9e6acdc34b51e64
       size: 6007
     - path: data/processed/y_train.csv
-      hash: md5
-      md5: 7f7cc74bb166c9c11a612e41ba908be6
+      md5: 6bd7ba9baf5cb0bffaa13d646600493e
       size: 24007
   train:
     cmd: python src/train.py --data data/processed --model models/model.joblib 
       --metrics metrics.json --params params.yaml
     deps:
     - path: data/processed/X_test.csv
-      hash: md5
-      md5: 391398ed758f52c93c59b6f941d457d5
+      md5: 71bcfda447a5023ff614cffae8f3558b
       size: 186616
     - path: data/processed/X_train.csv
-      hash: md5
-      md5: b23ff27a0bbe120f836ace10915f7ef2
+      md5: fcfcaaf8a5acbf8fe85dce0d21265bfc
       size: 745946
     - path: data/processed/y_test.csv
-      hash: md5
-      md5: 553985da1a7dc3823c3bdf133d691800
+      md5: 73edd42799a08b81b9e6acdc34b51e64
       size: 6007
     - path: data/processed/y_train.csv
-      hash: md5
-      md5: 7f7cc74bb166c9c11a612e41ba908be6
+      md5: 6bd7ba9baf5cb0bffaa13d646600493e
       size: 24007
     - path: params.yaml
-      hash: md5
-      md5: 8f99b13c06cd2cf8a94517d5e701a548
+      md5: 3ecd8da4846ddfe063b0cdbfacfa3be2
       size: 698
     - path: src/train.py
-      hash: md5
-      md5: 19cdcdd015170523263190a62fb18a86
+      md5: 77532def6fd4c37231db2ea6cbe6fe39
       size: 8071
     params:
       params.yaml:
@@ -103,10 +89,8 @@ stages:
           - roc_auc
     outs:
     - path: metrics.json
-      hash: md5
-      md5: fa080b59de9d30eaf88adf6982176fc0
+      md5: 2936a9c44bcce2d3e9327da3c4eb0258
       size: 489
     - path: models/model.joblib
-      hash: md5
-      md5: 73bf7551b33710d10baed44facbb7a2a
+      md5: 08e4462a8b6d76e93c938e95fc956254
       size: 16765241
