@@ -78,6 +78,32 @@ def encode_features(df, params):
     print(f" Codificación completada: {len(encoders)} columnas procesadas")
     return df_encoded, encoders
 
+def engineer_features(df, params):
+    """Crea features derivadas"""
+    print("\n🔧 Aplicando feature engineering...")
+    
+    df_engineered = df.copy()
+    
+    # 1. Tenure groups (agrupación de antigüedad)
+    df_engineered['tenure_group'] = pd.cut(
+        df_engineered['tenure_months'], 
+        bins=[0, 12, 36, float('inf')],
+        labels=[0, 1, 2]  # nuevo, medio, veterano
+    )
+    print(f"  ✓ tenure_group creado")
+    
+    # 2. Average monthly charges per year
+    df_engineered['avg_charges_per_year'] = df_engineered['total_charges'] / (df_engineered['tenure_months'] / 12 + 0.01)
+    print(f"  ✓ avg_charges_per_year creado")
+    
+    # Convertir tenure_group a int (viene como category de pd.cut)
+    df_engineered['tenure_group'] = df_engineered['tenure_group'].astype(int)
+    
+    print("🔧 Feature engineering completado")
+    
+    return df_engineered
+
+
 def split_data(df, params):
     """Divide el dataset en train y test"""
     print("\n  Dividiendo dataset en train/test...")
@@ -184,9 +210,12 @@ def main():
     
     # 4. Codificar categóricas
     df_encoded, encoders = encode_features(df_clean, params)
-    
+
+    # 4.5 Feature engineering (NUEVO)
+    df_engineered = engineer_features(df_encoded, params)
+
     # 5. Dividir train/test
-    X_train, X_test, y_train, y_test = split_data(df_encoded, params)
+    X_train, X_test, y_train, y_test = split_data(df_engineered, params)
     
     # 6. Escalar features
     X_train_scaled, X_test_scaled, scaler = scale_features(X_train, X_test, params)
