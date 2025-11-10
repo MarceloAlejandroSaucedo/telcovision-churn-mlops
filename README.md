@@ -623,7 +623,11 @@ dvc status
 
 \- Fecha: Octubre 2025
 
+---
 
+## 🚀 CI/CD Status
+
+Este proyecto utiliza GitHub Actions para validar automáticamente cada cambio.
 
 
 
