@@ -8,8 +8,8 @@ stages:
       md5: 006527876bfe18c977d74eb4bc59443f
       size: 873370
     - path: params.yaml
-      md5: 3ecd8da4846ddfe063b0cdbfacfa3be2
-      size: 698
+      md5: 8ed79a19a0fcce3151744632b064c1a3
+      size: 842
     - path: src/data_prep.py
       md5: 79c06827aa55a4c833c535635b9a1abf
       size: 7117
@@ -66,8 +66,8 @@ stages:
       md5: 6bd7ba9baf5cb0bffaa13d646600493e
       size: 24007
     - path: params.yaml
-      md5: 3ecd8da4846ddfe063b0cdbfacfa3be2
-      size: 698
+      md5: 8ed79a19a0fcce3151744632b064c1a3
+      size: 842
     - path: src/train.py
       md5: 77532def6fd4c37231db2ea6cbe6fe39
       size: 8071
@@ -76,10 +76,15 @@ stages:
         train:
           model_type: random_forest
           random_forest:
-            n_estimators: 150
-            max_depth: 15
-            min_samples_split: 10
-            min_samples_leaf: 2
+            n_estimators: 200
+            max_depth: 20
+            min_samples_split: 5
+            min_samples_leaf: 1
+            random_state: 42
+          logistic_regression:
+            C: 1.0
+            max_iter: 1000
+            solver: lbfgs
             random_state: 42
           metrics:
           - accuracy
@@ -89,8 +94,8 @@ stages:
           - roc_auc
     outs:
     - path: metrics.json
-      md5: 2936a9c44bcce2d3e9327da3c4eb0258
+      md5: 09157f66dfbc63115a48c01975b04df9
       size: 489
     - path: models/model.joblib
-      md5: 08e4462a8b6d76e93c938e95fc956254
-      size: 16765241
+      md5: 5849a21326f8f94b97e3a8f99811af81
+      size: 40625561
