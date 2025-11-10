@@ -12,6 +12,7 @@ import json
 import os
 import argparse
 import joblib
+from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import (
     accuracy_score, 
@@ -22,6 +23,7 @@ from sklearn.metrics import (
     confusion_matrix,
     classification_report
 )
+
 
 # Configuración de MLflow
 USE_MLFLOW = False
@@ -35,11 +37,13 @@ except Exception as e:
     print(f"  MLflow no disponible: {e}")
     USE_MLFLOW = False
 
-def load_params(params_path='params.yaml'):
+def load_params(params_path='params.yaml'):  # ← DEFINICIÓN de la función
     """Carga los parámetros desde params.yaml"""
     with open(params_path, 'r') as f:
         params = yaml.safe_load(f)
     return params
+
+
 
 def load_processed_data(data_dir='data/processed'):
     """Carga los datos procesados"""
@@ -59,30 +63,46 @@ def load_processed_data(data_dir='data/processed'):
     return X_train, X_test, y_train, y_test
 
 def train_model(X_train, y_train, params):
-    """Entrena el modelo Random Forest"""
-    print("\n Iniciando entrenamiento del modelo...")
+    """Entrena el modelo con los datos y parámetros dados"""
     
-    model_params = params['train']['random_forest']
+    # Leer tipo de modelo desde params.yaml
+    model_type = params['train']['model_type']
+    model_params = params['train'][model_type]
     
-    model = RandomForestClassifier(
-        n_estimators=model_params['n_estimators'],
-        max_depth=model_params['max_depth'],
-        min_samples_split=model_params['min_samples_split'],
-        min_samples_leaf=model_params['min_samples_leaf'],
-        random_state=model_params['random_state'],
-        n_jobs=-1,
-        verbose=0
-    )
+    # Crear modelo según el tipo especificado
+    if model_type == 'random_forest':
+        model = RandomForestClassifier(
+            n_estimators=model_params['n_estimators'],
+            max_depth=model_params['max_depth'],
+            min_samples_split=model_params['min_samples_split'],
+            min_samples_leaf=model_params['min_samples_leaf'],
+            random_state=model_params['random_state'],
+            n_jobs=-1,
+            verbose=0
+        )
+    elif model_type == 'logistic_regression':
+        model = LogisticRegression(
+            C=model_params['C'],
+            max_iter=model_params['max_iter'],
+            solver=model_params['solver'],
+            random_state=model_params['random_state'],
+            n_jobs=-1,
+            verbose=0
+        )
+    else:
+        raise ValueError(f"Tipo de modelo no soportado: {model_type}")
     
-    print(f"  Parámetros del modelo:")
-    for key, value in model_params.items():
-        print(f"    - {key}: {value}")
+    print(f"\n Entrenando modelo: {model_type}")
+    print(f" Parámetros: {model_params}")
     
+    # Entrenar modelo
     model.fit(X_train, y_train)
-    print(" Modelo entrenado exitosamente")
+    
+    print(" ✓ Modelo entrenado exitosamente")
     
     return model, model_params
-
+    
+    
 def evaluate_model(model, X_train, X_test, y_train, y_test):
     """Evalúa el modelo y calcula métricas"""
     print("\n Evaluando modelo...")

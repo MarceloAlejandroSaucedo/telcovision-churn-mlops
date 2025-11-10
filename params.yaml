@@ -22,12 +22,17 @@ data_prep:
   - multiple_lines
   - payment_method
 train:
-  model_type: random_forest
+  model_type: logistic_regression
   random_forest:
     n_estimators: 150
     max_depth: 15
     min_samples_split: 10
     min_samples_leaf: 2
+    random_state: 42
+  logistic_regression:
+    C: 1.0
+    max_iter: 1000
+    solver: 'lbfgs'
     random_state: 42
 
   metrics:
