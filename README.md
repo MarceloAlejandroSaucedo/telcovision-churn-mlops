@@ -197,57 +197,41 @@ dvc repro
 
 \## 📁 Estructura del Proyecto
 
-
-
 telcovision-churn-mlops/
-
 ├── data/
-
-│ ├── raw/ # Datos originales (versionado con DVC)
-
-│ │ └── telco\_churn.csv
-
-│ └── processed/ # Datos procesados (versionado con DVC)
-
-│ ├── X\_train.csv
-
-│ ├── X\_test.csv
-
-│ ├── y\_train.csv
-
-│ ├── y\_test.csv
-
-│ └── metadata.json
-
+│   ├── raw/                  # Datos originales (versionado con DVC)
+│   │   └── telco_churn.csv
+│   └── processed/            # Datos procesados (versionado con DVC)
+│       ├── X_train.csv
+│       ├── X_test.csv
+│       ├── y_train.csv
+│       ├── y_test.csv
+│       └── metadata.json
 ├── src/
-
-│ ├── data\_prep.py # Script de preparación de datos
-
-│ └── train.py # Script de entrenamiento del modelo
-
-├── models/ # Modelos entrenados (versionado con DVC)
-
-│ ├── model.joblib
-
-│ └── metrics.json
-
-├── .dvc/ # Configuración de DVC
-
+│   ├── data_prep.py          # Script de preparación de datos
+│   ├── train.py              # Script de entrenamiento del modelo
+│   └── evaluate.py           # Script de evaluación avanzada (Etapa 7)
+├── models/                   # Modelos entrenados (versionado con DVC)
+│   ├── model.joblib
+│   └── metrics.json
+├── evaluation/               # Visualizaciones avanzadas (Etapa 7 Bonus)
+│   ├── confusion_matrix.png
+│   ├── roc_curve.png
+│   ├── precision_recall_curve.png
+│   ├── classification_report.txt
+│   ├── classification_report.json
+│   └── advanced_metrics.json
+├── .dvc/                     # Configuración de DVC
 ├── .github/
+│   └── workflows/            # GitHub Actions CI/CD
+├── params.yaml               # Parámetros configurables del pipeline
+├── dvc.yaml                  # Definición del pipeline DVC
+├── dvc.lock                  # Estado del pipeline (reproducibilidad)
+├── DEPLOYMENT.md             # Estrategia de deployment
+├── requirements.txt          # Dependencias Python
+├── .gitignore                # Archivos ignorados por Git
+└── README.md                 # Este archivo
 
-│ └── workflows/ # GitHub Actions CI/CD
-
-├── params.yaml # Parámetros configurables del pipeline
-
-├── dvc.yaml # Definición del pipeline DVC
-
-├── dvc.lock # Estado del pipeline (reproducibilidad)
-
-├── requirements.txt # Dependencias Python
-
-├── .gitignore # Archivos ignorados por Git
-
-└── README.md # Este archivo
 
 
 
@@ -256,100 +240,77 @@ telcovision-churn-mlops/
 
 \## 🔄 Pipeline de Trabajo
 
+El proyecto implementa un pipeline reproducible con tres etapas principales:
 
+### Etapa 1: Preparación de Datos (`prepare`)
 
-El proyecto implementa un pipeline reproducible con dos etapas principales:
+**Script:** `src/data_prep.py`
 
+**Funciones:**
+- Carga del dataset raw
+- Limpieza de datos (valores nulos, duplicados)
+- Codificación de variables categóricas (LabelEncoder)
+- División train/test (80/20) estratificada
+- Escalado de variables numéricas (StandardScaler)
+- Generación de datasets procesados
 
+**Entradas:**
+- `data/raw/telco_churn.csv`
+- `params.yaml`
 
-\### Etapa 1: Preparación de Datos (`prepare`)
+**Salidas:**
+- `data/processed/X_train.csv`
+- `data/processed/X_test.csv`
+- `data/processed/y_train.csv`
+- `data/processed/y_test.csv`
+- `data/processed/metadata.json`
 
+### Etapa 2: Entrenamiento del Modelo (`train`)
 
+**Script:** `src/train.py`
 
-\*\*Script:\*\* `src/data\_prep.py`
+**Funciones:**
+- Carga de datos procesados
+- Entrenamiento de modelo (Logistic Regression)
+- Cálculo de métricas (accuracy, precision, recall, F1, ROC-AUC)
+- Guardado del modelo entrenado
+- Tracking con MLflow (opcional)
 
+**Entradas:**
+- `data/processed/X_train.csv`
+- `data/processed/X_test.csv`
+- `data/processed/y_train.csv`
+- `data/processed/y_test.csv`
+- `params.yaml`
 
+**Salidas:**
+- `models/model.joblib`
+- `metrics.json`
 
-\*\*Funciones:\*\*
+### Etapa 3: Evaluación Avanzada (`evaluate`) ⭐ BONUS
 
-\- Carga del dataset raw
+**Script:** `src/evaluate.py`
 
-\- Limpieza de datos (valores nulos, duplicados)
+**Funciones:**
+- Generación de visualizaciones avanzadas
+- Matriz de confusión
+- Curva ROC
+- Curva Precision-Recall
+- Reportes de clasificación detallados
+- Métricas adicionales
 
-\- Codificación de variables categóricas (LabelEncoder)
+**Entradas:**
+- `data/processed/X_test.csv`
+- `data/processed/y_test.csv`
+- `models/model.joblib`
 
-\- División train/test (80/20) estratificada
-
-\- Escalado de variables numéricas (StandardScaler)
-
-\- Generación de datasets procesados
-
-
-
-\*\*Entradas:\*\*
-
-\- `data/raw/telco\_churn.csv`
-
-\- `params.yaml`
-
-
-
-\*\*Salidas:\*\*
-
-\- `data/processed/X\_train.csv`
-
-\- `data/processed/X\_test.csv`
-
-\- `data/processed/y\_train.csv`
-
-\- `data/processed/y\_test.csv`
-
-\- `data/processed/metadata.json`
-
-
-
-\### Etapa 2: Entrenamiento del Modelo (`train`)
-
-
-
-\*\*Script:\*\* `src/train.py`
-
-
-
-\*\*Funciones:\*\*
-
-\- Carga de datos procesados
-
-\- Entrenamiento de modelo Random Forest
-
-\- Cálculo de métricas (accuracy, precision, recall, F1, ROC-AUC)
-
-\- Guardado del modelo entrenado
-
-\- Tracking con MLflow (opcional)
-
-
-
-\*\*Entradas:\*\*
-
-\- `data/processed/X\_train.csv`
-
-\- `data/processed/X\_test.csv`
-
-\- `data/processed/y\_train.csv`
-
-\- `data/processed/y\_test.csv`
-
-\- `params.yaml`
-
-
-
-\*\*Salidas:\*\*
-
-\- `models/model.joblib`
-
-\- `models/metrics.json`
-
+**Salidas:**
+- `evaluation/confusion_matrix.png`
+- `evaluation/roc_curve.png`
+- `evaluation/precision_recall_curve.png`
+- `evaluation/classification_report.txt`
+- `evaluation/classification_report.json`
+- `evaluation/advanced_metrics.json`
 
 
 \## 📈 Reproducibilidad
@@ -603,7 +564,52 @@ Verificar status
 dvc status
 
 
+## Resultados Finales
 
+### Modelo en Producción
+
+**Algoritmo seleccionado:** Logistic Regression
+
+| Métrica | Valor |
+|---------|-------|
+| Test Accuracy | 67.45% |
+| Test Precision | 56.10% |
+| Test Recall | 44.44% |
+| Test F1-Score | 48.37% |
+| Test ROC-AUC | 70.54% |
+| PR-AUC | 54.24% |
+
+### Experimentos Evaluados
+
+Se probaron 3 enfoques diferentes mediante Pull Requests:
+
+| Experimento | Accuracy | F1-Score | Decisión |
+|-------------|----------|----------|----------|
+| Logistic Regression | 67.45% | 48.37% | ✅ Seleccionado |
+| RF Tuning | 66.85% | 47.17% | ❌ Descartado |
+| Feature Engineering | 66.55% | 45.65% | ❌ Overfitting |
+
+**Justificación:** Logistic Regression demostró el mejor balance entre performance y simplicidad, evitando overfitting.
+
+### Visualizaciones
+
+El pipeline genera automáticamente:
+- Matriz de confusión para análisis de errores
+- Curva ROC para evaluar discriminación del modelo
+- Curva Precision-Recall para datasets desbalanceados
+- Reportes de clasificación detallados
+
+**Ver:** Carpeta `evaluation/` después de ejecutar `dvc repro`
+
+## 🚀 Deployment
+
+Para información sobre estrategia de deployment en producción, ver [DEPLOYMENT.md](DEPLOYMENT.md)
+
+Incluye:
+- Arquitectura propuesta (API REST vs Batch)
+- Stack tecnológico recomendado
+- Estrategia de monitoreo y reentrenamiento
+- Estimación de costos
 
 
 
