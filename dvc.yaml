@@ -30,3 +30,18 @@ stages:
     outs:
       - models/model.joblib
       - metrics.json
+
+  evaluate:
+    cmd: python src/evaluate.py --data data/processed --model models/model.joblib --output evaluation
+    deps:
+      - src/evaluate.py
+      - data/processed/X_test.csv
+      - data/processed/y_test.csv
+      - models/model.joblib
+    outs:
+      - evaluation/confusion_matrix.png
+      - evaluation/roc_curve.png
+      - evaluation/precision_recall_curve.png
+      - evaluation/classification_report.txt
+      - evaluation/classification_report.json
+      - evaluation/advanced_metrics.json

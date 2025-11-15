@@ -99,3 +99,38 @@ stages:
     - path: models/model.joblib
       md5: fcfc704580fa9607e9bfb67121f26521
       size: 1455
+  evaluate:
+    cmd: python src/evaluate.py --data data/processed --model 
+      models/model.joblib --output evaluation
+    deps:
+    - path: data/processed/X_test.csv
+      md5: 71bcfda447a5023ff614cffae8f3558b
+      size: 186616
+    - path: data/processed/y_test.csv
+      md5: 73edd42799a08b81b9e6acdc34b51e64
+      size: 6007
+    - path: models/model.joblib
+      md5: fcfc704580fa9607e9bfb67121f26521
+      size: 1455
+    - path: src/evaluate.py
+      md5: da59d97fd3c3f9a9ce920ee50180adca
+      size: 6420
+    outs:
+    - path: evaluation/advanced_metrics.json
+      md5: b396baec2c9e7e80d3421b3191072991
+      size: 208
+    - path: evaluation/classification_report.json
+      md5: 53d988ffb7eeee49f3d854ad5e749635
+      size: 638
+    - path: evaluation/classification_report.txt
+      md5: 3db8b363abaf3cbceef16012bd5a1e9e
+      size: 411
+    - path: evaluation/confusion_matrix.png
+      md5: 8ebc2018d0f5f0821a4e0285d56fd864
+      size: 35605
+    - path: evaluation/precision_recall_curve.png
+      md5: 5572c2e1a76093a05232751986d7dde4
+      size: 42520
+    - path: evaluation/roc_curve.png
+      md5: 82d195f1f766bde0523100ba474811cb
+      size: 59853
