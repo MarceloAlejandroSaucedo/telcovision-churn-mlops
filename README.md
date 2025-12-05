@@ -17,6 +17,12 @@ Pipeline reproducible de Machine Learning para predecir la rotación de clientes
 \*\*Contexto:\*\* TelcoVision busca reducir la rotación de clientes mediante un modelo predictivo basado en datos de uso de servicios, información demográfica y métodos de pago.
 
 
+## 🎥 Video Demostrativo
+
+**[▶️ Ver Video del Proyecto en Google Drive](https://drive.google.com/file/d/1FGTzJZ_gx1DbNkU0mV9aDIU8ZA8cPOt1/view?usp=sharing)**
+
+Video demostrativo del pipeline MLOps completo mostrando reproducibilidad, experimentación y CI/CD.
+
 
 \## 🎯 Objetivos
 
@@ -483,7 +489,7 @@ Los experimentos y artefactos están versionados con DVC y disponibles en DagsHu
 
 \- \*\*Proyecto DagsHub:\*\* \[telcovision-churn-mlops](https://dagshub.com/MarceloAlejandroSaucedo/telcovision-churn-mlops)
 
-
+- **Video Demostrativo:** [Ver en Google Drive](https://drive.google.com/file/d/1FGTzJZ_gx1DbNkU0mV9aDIU8ZA8cPOt1/view?usp=sharing)
 
 \## 🚦 CI/CD con GitHub Actions
 
